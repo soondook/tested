@@ -34,21 +34,21 @@ namespace tested
     public class Person1
     {
 
-        public List<Person1> People { get; set; }
+        //public List<Person1> People { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
     }
 
     public class CategoryData
     {
-        public IList<string> Category { get; set; }
-        public IList<string> Product { get; set; }
+        public List<string> Category { get; set; }
+        public List<string> Product { get; set; }
     }
 
     public class CategoryData1
     {
         public string Category { get; set; }
-        public IList<string> Product { get; set; }
+        public List<string> Product { get; set; }
     }
 
 
@@ -82,7 +82,10 @@ namespace tested
         {
 
             string encrypt = "12345678";
+            string encryptedText = "6NrQGZ6fkuOsGNPXKFY9ynmvooa805Bs/+lug2KYzbTCEnKt9DQZIwIiKV6x9LjkvFaubvBlxrEsIAVmUx6xGw==";
             PSInvoke.PowerNETDOM(encrypt);
+            PSInvoke.PowerEDM(encrypt);
+            AES_Encrypt.DecryptAES(encryptedText);
             //IInvokeOnGetBinder();
             //List<CategoryData> data = new List<CategoryData>() { };
             List<string> data = new List<string>() { };
@@ -117,7 +120,7 @@ namespace tested
             JObject b = JObject.Parse(json5);
             JArray c = (JArray)b["d"];
             
-            IList<Person1> person = c.ToObject<IList<Person1>>();
+            List<Person1> person = c.ToObject<List<Person1>>();
             for (int i = 0; i < person.Count; i++)
             {
                 string[] input2 = { "FirstName: " + person[i].FirstName, "LastName: " + person[i].LastName };
@@ -147,8 +150,8 @@ namespace tested
             Console.WriteLine(arrays[1].email_address + arrays[1].status);
 
             List<MyClass> newData = new List<MyClass>() { };
-            newData.AddRange(new List<MyClass>() { new MyClass() { email_address = "email1@email.com", status = "good1go" } });
-            newData.AddRange(new List<MyClass>() { new MyClass() { email_address = "email2@email.com", status = "good2go" } });
+            newData.AddRange(new List<MyClass>() { new MyClass() { email_address = "email3@email.com", status = "good3go" } });
+            newData.AddRange(new List<MyClass>() { new MyClass() { email_address = "email4@email.com", status = "good4go" } });
             //string[] input_ = { email_address = "email1@email.com", status = "good1go" }
             //newData = new List<MyClass>() { new MyClass() { email_address = "email1@email.com", status = "good1go" } };
             //newData = new List<MyClass>() { new MyClass() { email_address = "email2@email.com", status = "good2go" } };
@@ -222,19 +225,19 @@ namespace tested
                 {
                    // i++;
                     var name = p.Name;
-                    Console.WriteLine(name);
+                    Console.WriteLine(name + " name");
                     var  value = p.Value.ToString();
                     var response1 = value.Replace("[", "").Replace("]", "");
                     response1 = response1.Replace("{", "").Replace("}", "");
                     //IEnumerable<string> items = (IEnumerable<string>)(IEnumerable)response1;
-                    Console.WriteLine(response1);
+                    Console.WriteLine(response1 + " response1");
                     //pointList2.AddRange(response1.ToList());
                     
-                    if (name.StartsWith("Id"))
+                    if (name.StartsWith("Product"))
                     {
                         Console.WriteLine(name + " -- " + value);
                     }
-                    if (name.StartsWith("Token"))
+                    if (name.StartsWith("Category"))
                     {
                         Console.WriteLine(name + " -- " + value);
                     }
