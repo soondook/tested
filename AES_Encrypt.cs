@@ -12,13 +12,13 @@ namespace tested
 
     class AES_Encrypt
     {
-        static string aes_key = "wQpxkQNAxqULHUsAy/cuTnzyrF1LYGLkbOyozXv6Kag=";
-        static string aes_iv = "6u7xI5cHMyssVBeLDAZBlA==";
+        static readonly string aes_key = "wQpxkQNAxqULHUsAy/cuTnzyrF1LYGLkbOyozXv6Kag=";
+        static readonly string aes_iv = "6u7xI5cHMyssVBeLDAZBlA==";
 
-        public static void AesEDM(string pass)
+        public static void AesEDM(string original)
         {
 
-            string original = "Hello World!";
+            //string original = "Hello World!";
 
             try
             {
@@ -31,7 +31,7 @@ namespace tested
                 //Display the original data and the decrypted data.
                 Console.WriteLine("Original:   {0}", original);
                 Console.WriteLine("encrypted:   {0}", Convert.ToBase64String(encrypted));
-                Console.WriteLine("Round Trip: {0}", roundtrip);
+                Console.WriteLine("roundtrip: {0}", roundtrip);
 
                 Console.WriteLine("===========================");
 
@@ -63,8 +63,8 @@ namespace tested
                 aes.IV = Convert.FromBase64String(aes_iv);
                 aes.Mode = CipherMode.CBC;
                 aes.Padding = PaddingMode.PKCS7;
-                aes.IV = Convert.FromBase64String("6u7xI5cHMyssVBeLDAZBlA==");
-                aes.Key = Convert.FromBase64String("wQpxkQNAxqULHUsAy/cuTnzyrF1LYGLkbOyozXv6Kag=");
+                aes.Key = Convert.FromBase64String(aes_key);
+                aes.IV = Convert.FromBase64String(aes_iv);
 
                 ICryptoTransform enc = aes.CreateEncryptor(aes.Key, aes.IV);
 
@@ -110,19 +110,15 @@ namespace tested
                 using (MemoryStream ms = new MemoryStream(cipher))
                 {
 
-                    using (CryptoStream cs = new CryptoStream(ms, dec, CryptoStreamMode.Read))
-                    {
-                        using (StreamReader sr = new StreamReader(cs))
-                        {
-                            decrypted = sr.ReadToEnd();
-                        }
-                    }
+                    using CryptoStream cs = new CryptoStream(ms, dec, CryptoStreamMode.Read);
+                    using StreamReader sr = new StreamReader(cs);
+                    decrypted = sr.ReadToEnd();
                 }
                 aes.Dispose();
             }
             var result_encrypt = decrypted[15..].Trim();
-            Console.WriteLine("Original:{0}", result_encrypt);
-            //Console.WriteLine("Original:{0}", var);
+            Console.WriteLine("Originals:{0}", result_encrypt);
+            //Console.WriteLine("Original_de:{0}", decrypted);
             return decrypted;
         }
 

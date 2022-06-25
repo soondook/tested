@@ -10,21 +10,28 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Dynamic;
 using System.Collections;
+using tested.Services;
+using System.Net.Mail;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 
 namespace tested
 {
 
-    class MyClass
+    public class MyClass
     {
         public string email_address { get; set; }
         public string status { get; set; }
     }
 
-
+    
     public class RootObject
     {
         public List<Person> People { get; set; }
     }
+    
     public class Person
     {
 
@@ -38,13 +45,13 @@ namespace tested
         public string FirstName { get; set; }
         public string LastName { get; set; }
     }
-
+    
     public class CategoryData
     {
-        public List<string> Category { get; set; }
-        public List<string> Product { get; set; }
+        public List<Person1> Category { get; set; }
+        public List<MyClass> Product { get; set; }
     }
-
+    
     public class CategoryData1
     {
         public string Category { get; set; }
@@ -64,29 +71,36 @@ namespace tested
             Number = number;
             Title = Title;
         }
-        */
+        
         public MyContainer(List<string> firstNames, List<string> lastNames)
         {
             FirstNames = firstNames;
             LastNames = lastNames;
         }
+        */
     }
 
 
     class Program
     {
-
-
+        private static mailConfig _config;
+        private static EmailConfig _email;
         //public IList<CategoryData1> Product { get; set; }
         static void Main(string[] args)
         {
 
-            string encrypt = "12345678";
-            string encryptedText = "6NrQGZ6fkuOsGNPXKFY9ynmvooa805Bs/+lug2KYzbTCEnKt9DQZIwIiKV6x9LjkvFaubvBlxrEsIAVmUx6xGw==";
-            PSInvoke.PowerNETDOM(encrypt);
-            PSInvoke.PowerEDM(encrypt);
+            string encrypt = "passwordAdministratorPassword2017";
+            string encryptedText = "";
+            //PSInvoke.PowerNETDOM(encrypt);
+            encryptedText = PSInvoke.PowerEDM(encrypt);
+            Console.WriteLine(encryptedText);
+            //AES_Encrypt.AesEDM(encrypt);
             AES_Encrypt.DecryptAES(encryptedText);
-            //IInvokeOnGetBinder();
+            //string hosts = "smtp.gmail.com";
+            //EmailSender(string host, int port, bool enableSSL, string userName, string password)
+
+            //EmailSender(_email);
+
             //List<CategoryData> data = new List<CategoryData>() { };
             List<string> data = new List<string>() { };
             List<string> data1 = new List<string>() { };
@@ -115,11 +129,11 @@ namespace tested
             var results = string.Join(",", lst[1].FirstName);
             //Console.WriteLine(results.ToString());
 
-            
+
 
             JObject b = JObject.Parse(json5);
             JArray c = (JArray)b["d"];
-            
+
             List<Person1> person = c.ToObject<List<Person1>>();
             for (int i = 0; i < person.Count; i++)
             {
@@ -137,8 +151,8 @@ namespace tested
             //string dogCsv = pointList2.ToArray();
             //Console.WriteLine(pointList2[1].ToString());
             List<MyClass> arrays = new List<MyClass>() { };
-            arrays.Add(new MyClass() {email_address = "email1@email.com", status = "good1go"});
-            arrays.Add(new MyClass() {email_address = "email2@email.com", status = "good2go"});
+            arrays.Add(new MyClass() { email_address = "email1@email.com", status = "good1go" });
+            arrays.Add(new MyClass() { email_address = "email2@email.com", status = "good2go" });
             //list.Add(new Test(1, 2));
             //object[,] arrays = new object[,]{ { "email1@email.com", "good1go" }, { "email1@email.com", "good2go" } };
             //string[] input5 = {"email1@email.com", "good1go"};
@@ -147,7 +161,7 @@ namespace tested
             //string result = arrays.
             //arrays.AddRange(input6);
             //arrays.SetValue(${ "email1@email.com"}, ${ "good1go"});
-            Console.WriteLine(arrays[1].email_address + arrays[1].status);
+            //Console.WriteLine(arrays[1].email_address + arrays[1].status);
 
             List<MyClass> newData = new List<MyClass>() { };
             newData.AddRange(new List<MyClass>() { new MyClass() { email_address = "email3@email.com", status = "good3go" } });
@@ -155,21 +169,21 @@ namespace tested
             //string[] input_ = { email_address = "email1@email.com", status = "good1go" }
             //newData = new List<MyClass>() { new MyClass() { email_address = "email1@email.com", status = "good1go" } };
             //newData = new List<MyClass>() { new MyClass() { email_address = "email2@email.com", status = "good2go" } };
-
             //email_address = "email1@email.com", status = "good1go" }, new MyClass() { email_address = "email2@email.com", status = "good2go" } };
+            /*
             var jsons = JsonConvert.SerializeObject(new
             {
                 operations = newData
             });
-
+            */
             //Console.Write(jsons);
-            var jsons1 = System.IO.File.ReadAllText(@"C:\Temp1\Product_catalog.json");
+            var jsons1 = File.ReadAllText(@"C:\Temp1\Product_catalog.json");
             CategoryData1 Products1 = JsonConvert.DeserializeObject<CategoryData1>(jsons1);
             //MyClass Products1 = JsonConvert.DeserializeObject<MyClass>(jsons);
-            
-            foreach (string Product2 in Products1.Product)
-{
-                //Console.Write(Product2);
+
+            foreach (string Product3 in Products1.Product)
+            {
+                Console.WriteLine(Product3.ToString());
             }
 
             string json3 = "{\"People\":[{\"FirstName\":\"Hans\",\"LastName\":\"Olo\"},{\"FirstName\":\"Jimmy\",\"LastName\":\"Crackedcorn\"},{\"FirstName\":\"John\",\"LastName\":\"Neil\"}]}";
@@ -182,13 +196,13 @@ namespace tested
             //pointList2.AddRange(lastNames);
             //pointList2.Add(new MyContainer(firstNames, lastNames).FirstNames.ToString());
             //pointList2.AddRange(input2);
-            
-            foreach (string Product2 in pointList2)
+
+            foreach (string Product3 in pointList2)
             {
-                
-                Console.WriteLine(Product2.ToString());
+
+                //Console.WriteLine(Product2.ToString());
             }
-            
+            /*
             //Console.Write(pointList2[0]);
             object[] array = pointList2.ToArray();
             //int i = -1;
@@ -200,56 +214,74 @@ namespace tested
                 //obj[$"{2}"] = $"{jsn2}";
                 //Console.WriteLine(array.GetValue(i) + $"{i}");
             }
-            
-
+            */
+            List<Person1> json6 = new List<Person1>() { };
+            //string json6 = "[{\"FirstName\":\"Hans\",\"LastName\":\"Olo\"},{\"FirstName\":\"Jimmy\",\"LastName\":\"Crackedcorn\"},{\"FirstName\":\"John\",\"LastName\":\"Neil\"}]";
+            json6.AddRange(new List<Person1>() { new Person1() { FirstName = "Hans", LastName = "Olo" } });
             var json = JsonConvert.SerializeObject(new
             {
                 Product = newData,
-                Category = arrays
+                Category = json6
             });
             Console.WriteLine(json);
             //Deserialize
-            //CategoryData Products = JsonConvert.DeserializeObject<CategoryData>(json);
-            //MyClass1 Products = JsonConvert.DeserializeObject<MyClass1>(json);
-
-            
-
-            //Console.WriteLine(Products.Product.);
-            //string pp = "";
-            
-            JArray a = JArray.Parse("[" + json + "]");
-            // i = 0;
-            foreach (JObject o in a.Children<JObject>())
+            CategoryData Products = JsonConvert.DeserializeObject<CategoryData>(json);
+            //Console.WriteLine(Products.Product[1].email_address);
+            foreach (var Product3 in Products.Product)
             {
-                foreach (JProperty p in o.Properties())
+                Console.WriteLine(Product3.email_address);
+
+                foreach (var Product4 in Products.Category)
                 {
-                   // i++;
-                    var name = p.Name;
-                    Console.WriteLine(name + " name");
-                    var  value = p.Value.ToString();
-                    var response1 = value.Replace("[", "").Replace("]", "");
-                    response1 = response1.Replace("{", "").Replace("}", "");
-                    //IEnumerable<string> items = (IEnumerable<string>)(IEnumerable)response1;
-                    Console.WriteLine(response1 + " response1");
-                    //pointList2.AddRange(response1.ToList());
-                    
-                    if (name.StartsWith("Product"))
-                    {
-                        Console.WriteLine(name + " -- " + value);
-                    }
-                    if (name.StartsWith("Category"))
-                    {
-                        Console.WriteLine(name + " -- " + value);
-                    }
-                    
+                    Console.WriteLine(Product4.FirstName + Product4.LastName);
                 }
             }
-            
 
+            //return json6;
         }
 
-        
-    }
 
-    
+
+
+        //public static IFormFile Attachment { get; set; }
+        public System.Net.Mail.AttachmentCollection Attachments { get; }
+        public static string EmailSender(EmailConfig _email)
+        {
+
+            
+            using (MailMessage mm = new MailMessage("atmtechportal.for.all@gmail.com", "soondook@gmail.com"))
+            {
+               
+                //_email.To = "soondook@gmail.com";
+                mm.Subject = "1";
+                mm.Body = "2";
+                //string file = "data.xls";
+                string file = Path.GetFileName("C:\\cygwin64\\home\\OpenSSH\\sql_res1.yml");
+                Attachment data = new Attachment(file, MediaTypeNames.Application.Octet);
+                mm.Attachments.Add(data);
+                //if (Attachment.Length > 0)
+                //{
+                //Attachment at = new Attachment(Server.MapPath("~/Uploaded/txt.doc"));
+                //string fileName = Path.GetFileName("C:\\cygwin64\\home\\OpenSSH\\sql_res1.yml");
+                //string fileName = Path.GetFileName(Attachment.FileName);
+                //mm.Attachments.Add(new Attachment(_email.Attachment.OpenReadStream(), fileName));
+                //}
+
+                mm.IsBodyHtml = false;
+
+                using (SmtpClient smtp = new SmtpClient())
+                {
+                    smtp.Host = "smtp.gmail.com";
+                    smtp.EnableSsl = true;
+                    NetworkCredential NetworkCred = new NetworkCredential("atmtechportal.for.all@gmail.com", "erqgwvcuobazlpvy");
+                    smtp.UseDefaultCredentials = false;
+                    smtp.Credentials = NetworkCred;
+                    smtp.Port = 587;
+                    smtp.Send(mm);
+                }
+            }
+            return null;
+        }
+
+    } 
 }
